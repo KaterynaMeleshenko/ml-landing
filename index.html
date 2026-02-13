@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Міні-інтенсив з Машинного Навчання</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Oswald:wght@200;300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --dark-blue: #0f172a;
+            --gold: #fbbf24;
+            --red: #ef4444;
+            --cream: #fef3c7;
+            --light-gray: #f3f4f6;
+            --white: #ffffff;
+            --text-dark: #1f2937;
+            --text-gray: #6b7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 50%, #0f172a 100%);
+            color: var(--white);
+            padding: 30px 20px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(255,255,255,0.03) 50px, rgba(255,255,255,0.03) 51px),
+                repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(255,255,255,0.03) 50px, rgba(255,255,255,0.03) 51px);
+            pointer-events: none;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-top {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 40px;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+
+        .hero-bottom {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .hero-top-left h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-top-left h1 span {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3.3rem;
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-top-left h1 .highlight-gold {
+            color: var(--gold);
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            margin-bottom: 10px;
+            opacity: 0.95;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-features {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            line-height: 1.25; /* slightly tighter lines to reduce vertical spacing */
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        /* Higher-specificity rule to reduce spacing between list items */
+        .hero .hero-features li {
+            padding: 6px 0 6px 35px; /* reduced from 8px */
+            margin: 0;
+            list-style: none;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        .hero-features li {
+            padding: 8px 0 8px 35px;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .hero-features li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .hero-logo {
+            width: min(620px, 40vw);
+            height: min(420px, 40vw);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeInUp 0.8s ease-out 0.1s both;
+            padding: 14px;
+        }
+
+        .hero-logo img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .hero-bottom {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .hero-bottom-right {
+            width: 100%;
+            width: 100%;
+            max-width: var(--price-width, 570px);
+            max-width: 100%;
+            animation: fadeInUp 0.8s ease-out 0.5s both;
+        }
+
+        .hero-bottom-right h2 {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            font-weight: 400;
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 16px;
+        }
+
+        .course-for-list {
+            margin-top: 0;
+            background: rgba(30, 58, 138, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            padding: 30px;
+            border-radius: 16px;
+        }
+
+        .course-for-list h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gold);
+            font-weight: 400;
+        }
+
+        .course-for-list ul {
+            list-style: none;
+        }
+
+        .course-for-list li {
+            padding: 6px 0 6px 35px;
+            position: relative;
+            font-size: 1.1rem;
+            line-height: 1.45;
+        }
+
+        .course-for-list li:before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .price-box {
+            width: 100%;
+            max-width: 100%;
+            background: var(--white);
+            color: var(--text-dark);
+            padding: 70px;
+        }
+        @media (max-width: 968px) {
+            .price-box {
+                padding: 30px;
+            }
+        }
+        .price-box {
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .price-box h3 {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .price {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .price-current {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--red);
+            display: inline-block;
+        }
+
+        .price-old {
+            font-size: 1.5rem;
+            color: var(--text-gray);
+            text-decoration: line-through;
+            margin-left: 10px;
+        }
+
+        .price-info {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .cta-btn {
+            background: var(--red);
+            color: var(--white);
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
+        }
+
+        .cta-btn:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(239, 68, 68, 0.5);
+        }
+
+        .instant-access {
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 12px;
+            color: var(--text-gray);
+        }
+
+        .countdown-label {
+            text-align: center;
+            font-weight: 500;
+            margin-bottom: 15px;
+            margin-top: 30px;
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .timer-item {
+            text-align: center;
+            background: #000000;
+            padding: 15px 15px;
+            border-radius: 12px;
+            min-width: 80px;
+            width: 80px;
+        }
+
+        .timer-item .number {
+            display: block;
+            font-size: 2.3rem;
+            font-weight: 600;
+            line-height: 1;
+            color: #ffffff;
+        }
+
+        .timer-item .label {
+            font-size: 0.85rem;
+            margin-top: 8px;
+            color: #ffffff;
+        }
+
+        /* For Who Section */
+        .for-who {
+            padding: 80px 20px;
+            background: var(--light-gray);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 60px;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cards-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 50px;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        .card {
+            text-align: center;
+            padding: 40px 30px;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            flex: 0 0 300px;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .card-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px;
+            background: var(--cream);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            line-height: 1.7;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .cta-question {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 80px 20px;
+            background: var(--cream);
+        }
+
+        .benefits-list {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .benefit-item {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 25px;
+            margin-bottom: 35px;
+            padding: 30px;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            transition: all 0.3s;
+        }
+
+        .benefit-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .benefit-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-blue), #3b82f6);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .benefit-content h3 {
+            font-size: 1.25rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+            color: var(--primary-blue);
+        }
+
+        .benefit-content p {
+            color: var(--text-gray);
+            line-height: 1.8;
+        }
+
+        .benefits-note {
+            max-width: 800px;
+            margin: 50px auto 0;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            padding: 30px;
+            background: rgba(30, 58, 138, 0.05);
+            border-radius: 12px;
+        }
+
+        .benefits-note p:first-child {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 20px;
+            background: var(--light-gray);
+        }
+
+        .about-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .about-image {
+            float: left;
+            width: 350px;
+            margin-right: 40px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            shape-outside: margin-box;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .about-text h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+
+        .about-text h3 {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            color: var(--text-gray);
+            line-height: 1.9;
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+        }
+
+        /* Course Content Section */
+        .course-content {
+            padding: 80px 20px;
+            background: var(--white);
+        }
+
+        .content-list {
+            max-width: 900px;
+            margin: 40px auto 0;
+        }
+
+        .content-item {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: var(--light-gray);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .content-item:hover {
+            background: #e5e7eb;
+        }
+
+        .content-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--primary-blue);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .content-text h3 {
+            font-size: 1.15rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .content-text p {
+            color: var(--text-gray);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .content-note {
+            max-width: 800px;
+            margin: 50px auto 0;
+            text-align: center;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-dark);
+        }
+
+        /* What You'll Learn Section */
+        .what-learn {
+            padding: 80px 20px;
+            background: var(--light-gray);
+        }
+
+        .learn-intro {
+            max-width: 900px;
+            margin: 0 auto 40px;
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--text-dark);
+        }
+
+        .learn-section {
+            max-width: 900px;
+            margin: 40px auto;
+        }
+
+        .learn-section h3 {
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .learn-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .learn-list li {
+            padding: 12px 0 12px 30px;
+            position: relative;
+            line-height: 1.7;
+            color: var(--text-dark);
+        }
+
+        .learn-list li:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary-blue);
+            font-weight: 900;
+            font-size: 1.5rem;
+        }
+
+        .important-note {
+            max-width: 900px;
+            margin: 50px auto;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 5px solid var(--red);
+        }
+
+        .important-note h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--red);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .important-note p {
+            line-height: 1.8;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .important-note ul {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .important-note li {
+            padding: 8px 0 8px 25px;
+            position: relative;
+        }
+
+        .important-note li:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--red);
+            font-weight: 900;
+        }
+
+        .final-note {
+            max-width: 900px;
+            margin: 30px auto;
+            text-align: center;
+            font-size: 1.15rem;
+            font-weight: 600;
+            line-height: 1.8;
+            color: var(--text-dark);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 80px 20px;
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .testimonials-grid {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 16px;
+        }
+
+        .testimonial-card h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--gold);
+        }
+
+        .testimonial-card .position {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card p {
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .testimonials-note {
+            max-width: 800px;
+            margin: 50px auto 0;
+            text-align: center;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 80px 20px;
+            background: var(--white);
+        }
+
+        .faq-list {
+            max-width: 900px;
+            margin: 40px auto 0;
+        }
+
+        .faq-item {
+            background: var(--light-gray);
+            margin-bottom: 15px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 25px 30px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            color: var(--text-dark);
+        }
+
+        .faq-question:hover {
+            background: #e5e7eb;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--primary-blue);
+        }
+
+        .faq-answer {
+            padding: 0 30px 25px;
+            color: var(--text-gray);
+            line-height: 1.8;
+            display: none;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        /* Guarantee Section */
+        .guarantee {
+            padding: 60px 20px;
+            background: var(--cream);
+        }
+
+        .guarantee-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .guarantee-content h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: var(--text-dark);
+            text-transform: uppercase;
+        }
+
+        .guarantee-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            padding: 80px 20px;
+            background: var(--white);
+        }
+
+        .final-cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            line-height: 1.3;
+        }
+
+        .final-cta-highlight {
+            color: var(--red);
+        }
+
+        .final-cta-text {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+
+        .final-cta-list {
+            list-style: none;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .final-cta-list li {
+            padding: 12px 0 12px 35px;
+            position: relative;
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .final-cta-list li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-blue);
+            font-weight: 900;
+            font-size: 1.5rem;
+        }
+
+        .final-cta-note {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 30px 0;
+            line-height: 1.6;
+        }
+
+        .course-details {
+            background: var(--light-gray);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .course-details p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .course-details strong {
+            color: var(--primary-blue);
+        }
+
+        .price-highlight {
+            font-size: 1.3rem;
+            color: var(--red);
+            font-weight: 900;
+        }
+
+        .final-cta-btn-wrapper {
+            margin: 40px 0;
+        }
+
+        .money-back {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            background: #374151;
+            color: var(--white);
+            padding: 40px 20px 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-info {
+            margin-bottom: 25px;
+        }
+
+        .footer-info p {
+            margin: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            padding-top: 25px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-top {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .hero-top-left h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-top-left h1 span{
+                font-size: 3.3rem;
+            }
+
+            .hero-logo {
+                display: none;
+            }
+
+            .hero-bottom {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .about-image {
+                float: none;
+                width: 100%;
+                max-width: 350px;
+                margin: 0 auto 30px;
+            }
+
+            .about-text h2,
+            .about-text h3 {
+                text-align: center;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-top-left h1 {
+                font-size: 2rem;
+            }
+
+            .hero-top-left h1 span{
+                font-size: 2.5rem;
+            }
+
+            .mi-logo-container {
+                max-width: 300px;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .timer {
+                gap: 8px;
+            }
+
+            .timer-item {
+                min-width: 70px;
+                width: 70px;
+                padding: 12px 10px;
+            }
+
+            .timer-item .number {
+                font-size: 2rem;
+            }
+
+            .timer-item .label {
+                font-size: 0.7rem;
+            }
+
+            .price-current {
+                font-size: 2.2rem;
+            }
+
+            .price-old {
+                font-size: 1.2rem;
+            }
+
+            .benefit-item,
+            .content-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .benefit-icon,
+            .content-icon {
+                margin: 0 auto 15px;
+            }
+
+            }
+            h2 { font-family: 'Oswald', sans-serif !important; font-weight: 300 !important; }
+            @media (max-width: 640px) {
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <!-- Top Section: Left (Title + Subtitle + Features) and Right (Logo) -->
+            <div class="hero-top">
+                <div class="hero-top-left">
+                    <style>
+                    .radiotitle{
+                        font-family: "Oswald", sans-serif;
+                        font-optical-sizing: auto;
+                        font-weight: 300;
+                        font-style: normal;
+                    }
+
+                    @media (max-width:968px){
+                        .radiotitle{ font-size: 2.5rem; }
+                    }
+                    @media (max-width:640px){
+                        .radiotitle{ font-size: 2rem; }
+                    }
+                    </style>
+
+                    <h1 class="radiotitle"><span class="highlight-gold"> Машинне навчання –</span><br>просто і зрозуміло, без коду<br>і складних формул</h1>
+                    <style>
+                    @media (max-width: 968px){
+                        .hero-subtitle { font-size: 1rem; }
+                    }
+                    @media (max-width: 640px){
+                        .hero-subtitle { font-size: 0.9rem; line-height: 1.4; }
+                    }
+                    </style>
+                    <p class="hero-subtitle">Міні-інтенсив, який допоможе розібратися, як <br>насправді працює ML, зрозуміти, чи хочете ви <br> рухатися далі у сферу ШІ</p>
+                    
+                    <ul class="hero-features">
+                        <li>без програмування і вищої математики</li>
+                        <li>через аналогії, приклади та візуальні пояснення</li>
+                        <li>для людей без технічного бекграунду</li>
+                    </ul>
+                </div>
+
+                <div class="hero-logo">
+                    <style>
+                        @media (max-width: 640px) {
+                            .hero-logo {
+                                display: none !important;
+                            }
+                        }
+                    </style>
+                    <img src="images/ML.png" alt="Логотип ML" style="max-width: 90%; max-height: 90%; object-fit: contain;"/>
+                </div>
+            </div>
+
+            <!-- Bottom Section: Left (Price Box) and Right (Course Info) -->
+            <div class="hero-bottom">
+                <div class="price-box">
+                    <h3>ДАТА СТАРТУ ІНТЕНСИВУ 12 БЕРЕЗНЯ</h3>
+                    <div class="price">
+                        <span class="price-current">900 грн</span>
+                        <span style="margin-left: 14px; color: var(--text-gray); font-size: 1.5rem; font-weight: 400;">замість</span>
+                        <span class="price-old">3100 грн</span>
+                    </div>
+                    <p class="price-info">Отримайте доступ<br>до міні-інтенсиву з логіки ML</p>
+                    <button class="cta-btn">ОТРИМАТИ ДОСТУП</button>
+                    <p class="instant-access">(Миттєвий доступ, без спаму)</p>
+                    
+                    <div class="countdown-label">До підвищення ціни:</div>
+                    <div class="timer">
+                        <div class="timer-item">
+                            <span class="number" id="days">00</span>
+                            <span class="label">Днів</span>
+                        </div>
+                        <div class="timer-item">
+                            <span class="number" id="hours">00</span>
+                            <span class="label">Годин</span>
+                        </div>
+                        <div class="timer-item">
+                            <span class="number" id="minutes">00</span>
+                            <span class="label">Хвилин</span>
+                        </div>
+                        <div class="timer-item">
+                            <span class="number" id="seconds">00</span>
+                            <span class="label">Секунд</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-bottom-right">
+                    <h2>Як машинне навчання «думає» і приймає рішення. Без коду, формул і перевантаження термінами — через логіку, приклади та зрозумілі аналогії.</h2>
+
+                    <div class="course-for-list">
+                        <h3>ЦЕЙ КУРС ДЛЯ ВАС, ЯКЩО:</h3>
+                        <ul>
+                            <li>ви стикаєтесь з ШІ щодня і хочете розуміти, як він «думає»</li>
+                            <li>ви багато чуєте про ШІ, але хочете нарешті зрозуміти, що за ним стоїть</li>
+                            <li>вам важливо бути в контексті й впевнено підтримувати розмову</li>
+                            <li>ви думаєте, чи рухатись далі у сферу ШІ або IT</li>
+                            <li>ви не хочете вчитись програмуванню та складній математиці</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- For Who Section -->
+    <section class="for-who">
+        <div class="container">
+            <h2 class="section-title">ДЛЯ КОГО ЦЕЙ ІНТЕНСИВ</h2>
+            <p style="text-align: center; font-size: 1.15rem; margin-bottom: 50px; font-weight: 600;">ЦЕЙ ІНТЕНСИВ ДЛЯ ВАС, ЯКЩО ВИ ЗАРАЗ:</p>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div>
+                        <img src="images/roles/role_1.jpg" alt="Іконка: бізнес-образ" style="display:block;margin:0 auto;width:72%;height:72%;object-fit:contain;border-radius:8px;">
+                    </div>
+                    <h3>НА ЕТАПІ ВИБОРУ</h3>
+                    <p>Ви придивляєтесь до ШІ / ML і хочете зрозуміти, чи справді це "ваше", перш ніж вкладати місяці у навчання.</p>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <img src="images/roles/role_2.jpg" alt="Іконка: бізнес-образ" style="display:block;margin:0 auto;width:72%;height:72%;object-fit:contain;border-radius:8px;">
+                    </div>
+                    <h3>У СТАНІ ПЕРЕВАНТАЖЕННЯ ІНФОРМАЦІЄЮ</h3>
+                    <p>Ви багато чуєте про ШІ, але все виглядає хаотично: терміни, інструменти, хайп — і хочеться цілісної картини.</p>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <img src="images/roles/role_3.jpg" alt="Іконка: бізнес-образ" style="display:block;margin:0 auto;width:72%;height:72%;object-fit:contain;border-radius:8px;">
+                    </div>
+                    <h3>ПРАЦЮЄТЕ ПОРУЧ З ML / ШІ</h3>
+                    <p>Ви взаємодієте з аналітиками або ML-командами і хочете розуміти, про що йдеться, без занурення в код.</p>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <img src="images/roles/role_4.jpg" alt="Іконка: бізнес-образ" style="display:block;margin:0 auto;width:72%;height:72%;object-fit:contain;border-radius:8px;">
+                    </div>
+                    <h3>ПРИЙМАЄТЕ РІШЕННЯ</h3>
+                    <p>Ви менеджер, фаундер або спеціаліст, якому важливо усвідомлено оцінювати можливості та обмеження ШІ.</p>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <img src="images/roles/role_5.jpg" alt="Іконка: бізнес-образ" style="display:block;margin:0 auto;width:72%;height:72%;object-fit:contain;border-radius:8px;">
+                    </div>
+                    <h3>ПРОСТО ХОЧЕТЕ РОЗІБРАТИСЬ</h3>
+                    <p>Вам цікаво, як машинне навчання "думає" і приймає рішення, без програмування, формули і складної математики.</p>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <p class="cta-question" style="font-family: 'Oswald', sans-serif; font-weight: 400;">ВПІЗНАЛИ СЕБЕ?</p>
+                <button class="cta-btn" style="max-width: 400px; margin: 0 auto;">ОТРИМАТИ ДОСТУП</button>
+                <p class="instant-access">(Миттєвий доступ, без спаму)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">ЩО ВИ ОТРИМАЄТЕ ПІСЛЯ ІНТЕНСИВУ</h2>
+            
+            <div class="benefits-list">
+                <div class="benefit-item">
+                    <div>
+                        <img src="images/results/result_1.jpg" alt="Іконка: бізнес-образ" style="display:block;margin:0 auto;width:100%;height:100%;object-fit:contain;border-radius:8px;">
+                    </div>
+                    <div class="benefit-content">
+                        <h3>Розумітимете, як працює ML</h3>
+                        <p>Без коду, формул і складної теорії — ви зрозумієте логіку, за якою машинне навчання "вчиться", робить висновки і приймає рішення.</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div>
+                        <img src="images/results/result_2.jpg" alt="Іконка: бізнес-образ" style="display:block;margin:0 auto;width:100%;height:100%;object-fit:contain;border-radius:8px;">
+                    </div>
+                    <div class="benefit-content">
+                        <h3>Отримаєте цілісну картину</h3>
+                        <p>Ви перестанете бачити ШІ як набір незрозумілих термінів і зможете скласти в голові єдину, зрозумілу модель.</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                     <div>
+                        <img src="images/results/result_3.jpg" alt="Іконка: бізнес-образ" style="display:block;margin:0 auto;width:100%;height:100%;object-fit:contain;border-radius:8px;">
+                    </div>
+                    <div class="benefit-content">
+                        <h3>Зможете впевнено говорити про ШІ</h3>
+                        <p>Пояснювати простими словами підтримувати розмову з колегами, командами чи підрядникамибез відчуття, що "я нічого не розумію".</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div>
+                        <img src="images/results/result_4.jpg" alt="Іконка: бізнес-образ" style="display:block;margin:0 auto;width:100%;height:100%;object-fit:contain;border-radius:8px;">
+                    </div>
+                    <div class="benefit-content">
+                        <h3>Зрозумієте, чи хочете рухатись далі</h3>
+                        <p>Інтенсив допоможе усвідомлено відповісти собі: чи варто заглиблюватись у ML / DS далі і в якому напрямку це має сенс саме для вас.</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div>
+                        <img src="images/results/result_5.jpg" alt="Іконка: бізнес-образ" style="display:block;margin:0 auto;width:100%;height:100%;object-fit:contain;border-radius:8px;">
+                    </div>
+                    <div class="benefit-content">
+                        <h3>Без зайвого болю</h3>
+                        <p>Без програмування, без вищої математики, без перевантаження термінами — лише логіка, приклади та зрозумілі аналогії.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="benefits-note">
+                <p>Це не курс "як стати ML-інженером".</p>
+                <p>Це інтенсив, який дає ясність, орієнтири і спокійне розуміння теми.</p>
+            </div>
+
+            <div class="cta-section">
+                <p class="cta-question" style="font-family: 'Oswald', sans-serif; font-weight: 400;">ГОТОВІ РОЗІБРАТИСЬ У МАШИННОМУ НАВЧАННІ БЕЗ ЗАЙВОГО СТРЕСУ?</p>
+                <button class="cta-btn" style="max-width: 400px; margin: 0 auto;">ОТРИМАТИ ДОСТУП</button>
+                <p class="instant-access">(Миттєвий доступ, без спаму)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <h2 class="section-title">ПРО АВТОРА</h2>
+            <div class="about-content">
+                <div class="about-image" style="width:450px; max-width:45%; min-width:300px; margin-right:40px; margin-top: 15px;">
+                    <img src="images/author.jpg" alt="Мелешенко Катерина — професійне портретне фото, дивиться в камеру з теплою впевненою усмішкою; нейтральне світле тло, образ професійний і доброзичливий" />
+                </div>
+                <div class="about-text">
+                    <h2>Мелешенко Катерина</h2>
+                    <h3>кандидат технічних наук та практикуючий інженер з машинного навчання</h3>
+                    
+                    <p>Я добре знаю відчуття, коли машинне навчання здається складним і розрізненим. Коли є курси, сертифікати, код і моделі — але немає цілісного розуміння, як усе це працює разом і навіщо.</p>
+                    
+                    <p>Я прийшла в машинне навчання не одразу після університету. За моїми плечима — понад 10 років роботи в різних галузях: від морського бізнесу та фінансів до кібербезпеки. Саме цей досвід навчив мене дивитись на ML не як на набір інструментів, а як на систему прийняття рішень.</p>
+                    
+                    <p>Переломний момент настав тоді, коли я усвідомила: без розуміння теорії машинного навчання практика не працює. Саме теорія дає основу для усвідомлених рішень, а не механічного застосування алгоритмів.</p>
+                    
+                    <p>Поступово я "розклала" машинне навчання по поличках: зрозуміла логіку алгоритмів, принципи їх навчання та реальні межі можливостей штучного інтелекту.</p>
+                    
+                    <p>Сьогодні я ділюсь цим підходом з іншими — пояснюю машинне навчання простими словами, без коду і формул, але з глибоким розумінням того, як алгоритми насправді приймають рішення.</p>
+                    
+                    <p>Саме розуміння, а не інструменти, дозволяє впевнено працювати з темою ШІ і приймати зважені рішення щодо свого подальшого розвитку.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Content Section -->
+    <section class="course-content">
+        <div class="container">
+            <h2 class="section-title">ЯК ПРОХОДИТЬ ІНТЕНСИВ І ЩО НА ВАС ЧЕКАЄ</h2>
+            
+            <div class="content-list">
+                <div class="content-item">
+                    <div class="content-icon" style="background: transparent !important;">
+                        <img src="images/content/content_1.jpg" alt="Ілюстрація модуля — доступ через Telegram" style="display:block;width:100%;height:100%;object-fit:contain;border-radius:8px;background:transparent;">
+                    </div>
+                    <div class="content-text">
+                        <h3>Закритий Telegram-канал</h3>
+                        <p>Усі матеріали публікуються в закритому Telegram-каналі. Доступ до матеріалів зберігається 3 місяці після завершення інтенсиву.</p>
+                    </div>
+                </div>
+
+                <div class="content-item">
+                    <div class="content-icon" style="background: transparent !important;">
+                        <img src="images/content/content_2.jpg" alt="Ілюстрація модуля — доступ через Telegram" style="display:block;width:100%;height:100%;object-fit:contain;border-radius:8px;background:transparent;">
+                    </div>
+                    <div class="content-text">
+                        <h3>Текстові матеріали, голосові пояснення та візуальні приклади</h3>
+                        <p>Кожен модуль містить текстове пояснення теми, голосові розбори та візуальні приклади для кращого розуміння логіки, без коду і складних формул.</p>
+                    </div>
+                </div>
+
+                <div class="content-item">
+                    <div class="content-icon" style="background: transparent !important;">
+                        <img src="images/content/content_3.jpg" alt="Ілюстрація модуля — доступ через Telegram" style="display:block;width:100%;height:100%;object-fit:contain;border-radius:8px;background:transparent;">
+                    </div>
+                    <div class="content-text">
+                        <h3>PDF-конспекти після кожного модуля</h3>
+                        <p>Після кожного модуля ви отримуєте PDF-конспект з ключовими ідеями. Усі матеріали можна зберегти собі для подальшого використання.</p>
+                    </div>
+                </div>
+
+                <div class="content-item">
+                    <div class="content-icon" style="background: transparent !important;">
+                        <img src="images/content/content_4.jpg" alt="Ілюстрація модуля — доступ через Telegram" style="display:block;width:100%;height:100%;object-fit:contain;border-radius:8px;background:transparent;">
+                    </div>
+                    <div class="content-text">
+                        <h3>Домашні завдання на розуміння (необов'язкові)</h3>
+                        <p>Завдання допомагають перевірити, чи ви дійсно розуміли матеріал. Виконання — за бажанням.</p>
+                    </div>
+                </div>
+
+                <div class="content-item">
+                    <div class="content-icon" style="background: transparent !important;">
+                        <img src="images/content/content_5.jpg" alt="Ілюстрація модуля — доступ через Telegram" style="display:block;width:100%;height:100%;object-fit:contain;border-radius:8px;background:transparent;">
+                    </div>
+                    <div class="content-text">
+                        <h3>Розбір домашніх завдань у закритому Telegram-чаті</h3>
+                        <p>Пояснення рішень, відповіді на питання та уточнення складних моментів.</p>
+                    </div>
+                </div>
+
+                <div class="content-item">
+                    <div class="content-icon" style="background: transparent !important;">
+                        <img src="images/content/content_6.jpg" alt="Ілюстрація модуля — доступ через Telegram" style="display:block;width:100%;height:100%;object-fit:contain;border-radius:8px;background:transparent;">
+                    </div>
+                    <div class="content-text">
+                        <h3>Фінальне завдання (необов'язкове)</h3>
+                        <p>Підсумкове завдання для систематизації знань. Після його виконання ви отримуєте <strong>сертифікат</strong> про проходження інтенсиву.</p>
+                    </div>
+                </div>
+
+                <div class="content-item">
+                    <div class="content-icon" style="background: transparent !important;">
+                        <img src="images/content/content_7.jpg" alt="Ілюстрація модуля — доступ через Telegram" style="display:block;width:100%;height:100%;object-fit:contain;border-radius:8px;background:transparent;">
+                    </div>
+                    <div class="content-text">
+                        <h3>Бонусний модуль про нейронні мережі</h3>
+                        <p>Матеріал, що виходить за рамки класичного машинного навчання і допомагає зрозуміти, як працюють сучасні підходи в ШІ.</p>
+                    </div>
+                </div>
+
+                <div class="content-item">
+                    <div class="content-icon" style="background: transparent !important;">
+                        <img src="images/content/content_8.jpg" alt="Ілюстрація модуля — доступ через Telegram" style="display:block;width:100%;height:100%;object-fit:contain;border-radius:8px;background:transparent;">
+                    </div>
+                    <div class="content-text">
+                        <h3>Додаткові бонусні матеріали</h3>
+                        <p>Матеріали для тих, хто захоче заглибитись трохи більше після інтенсиву.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-note">
+                <p><strong>Усі завдання необов'язкові.</strong></p>
+                <p>Інтенсив побудований так, щоб дати розуміння навіть без їх виконання.</p>
+            </div>
+
+            <div class="cta-section">
+                <p class="cta-question" style="font-family: 'Oswald', sans-serif; font-weight: 400;">ГОТОВІ ПРОЙТИ ІНТЕНСИВ У ЗРУЧНОМУ ФОРМАТІ БЕЗ ЗАЙВОГО ШУМУ?</p>
+                <button class="cta-btn" style="max-width: 400px; margin: 0 auto;">ОТРИМАТИ ДОСТУП</button>
+                <p class="instant-access">(Миттєвий доступ, без спаму)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- What You'll Learn Section -->
+    <section class="what-learn">
+        <div class="container">
+            <h2 class="section-title">ЯК У ВАС СКЛАДЕТЬСЯ РОЗУМІННЯ МАШИННОГО НАВЧАННЯ</h2>
+            
+            <div class="learn-intro">
+                <p>Ми не вчимо терміни заради термінів.</p>
+                <p>Ми крок за кроком розбираємо логіку машинного навчання — так, щоб у вас склалася цілісна картина, а не набір фрагментів.</p>
+            </div>
+
+            <div class="learn-section">
+                <h3>Під час інтенсиву ми розберемо:</h3>
+                <ul class="learn-list">
+                    <li>що насправді мають на увазі, коли говорять «машинне навчання», і чим воно відрізняється від загального поняття ШІ</li>
+                    <li>як алгоритм «вчиться» на даних і що для нього означає навчання</li>
+                    <li>які типи задач реально вирішує машинне навчання</li>
+                    <li>як ML приймає рішення і на що він спирається</li>
+                </ul>
+            </div>
+
+            <div class="learn-section">
+                <h3>Бонусно:</h3>
+                <ul class="learn-list">
+                    <li>як працюють нейронні мережі на рівні ідеї і чим вони відрізняються від класичного машинного навчання</li>
+                </ul>
+            </div>
+
+            <p class="final-note">Це не перелік тем для зазубрювання. Це шлях до розуміння логіки машинного навчання.</p>
+
+            <div class="important-note">
+                <h3>ВАЖЛИВО ЗНАТИ</h3>
+                <p>Інтенсив <strong>не підійде</strong>, якщо ви:</p>
+                <ul>
+                    <li>шукаєте швидкий вхід у професію ML або «готову спеціальність»</li>
+                    <li>очікуєте навчання програмуванню, написання коду чи роботи з формулами</li>
+                </ul>
+                <p style="margin-top: 20px;"><strong>Інтенсив створений для розуміння логіки, а не для технічної підготовки.</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title" style="color:var(--white);">ВІДГУКИ ПРО МЕНЕ ЯК АВТОРА</h2>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <h4>Andrii Varenko</h4>
+                    <p class="position">Java Developer</p>
+                    <p>Чітко все пояснюєте. А те, що не зрозуміло, — роз'яснюєте.</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <h4>Mariia Papchenko</h4>
+                    <p class="position">Outreach Specialist</p>
+                    <p>Ніби й розуміла, що це різні речі, але цілісної картинки в голові не було. А тепер є.</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <h4>Anastasiia Prysiazhnaia</h4>
+                    <p class="position">Fullstack Developer</p>
+                    <p>Дякую, що кожен допис додає краплю розуміння у такій великій сфері, як AI. Буду читати надалі й набувати знань.</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <h4>Pavlo Kruhliakovskyi</h4>
+                    <p class="position">Content, Marketing, Data Analyst</p>
+                    <p>Дякую за експертний контент — для мене це нове. Дещо з цього я раніше не знав, тепер знаю.</p>
+                </div>
+                <div class="testimonial-card">
+                    <h4>Stanislav Korniiuk</h4>
+                    <p class="position">Financier, Analyst</p>
+                    <p>Детально, фахово і з душею. Відчувається глибоке розуміння теми і вміння пояснювати складне так, що хочеться не просто прочитати — а замислитись і розібратись.</p>
+                </div>
+                <div class="testimonial-card">
+                    <h4>Dmytro Silayev</h4>
+                    <p class="position">QA Engineer</p>
+                    <p> Ваші дописи змушують зупинитись і подумати. Вони не просто інформативні — після них з’являється бажання глибше розібратись у темі і зрозуміти, як усе працює насправді.</p>
+                </div>
+            </div>
+
+            <p class="testimonials-note">Відгуки з коментарів під моїми експертними дописами у LinkedIn</p>
+
+            <div class="cta-section">
+                <p class="cta-question" style="color: var(--white); font-family: 'Oswald', sans-serif; font-weight: 400;">ХОЧЕТЕ РОЗІБРАТИСЯ В МАШИННОМУ НАВЧАННІ ТАК САМО ЗРОЗУМІЛО?</p>
+                <button class="cta-btn" style="max-width: 400px; margin: 0 auto;">ОТРИМАТИ ДОСТУП</button>
+                <p class="instant-access" style="color: #ffffff;">(Миттєвий доступ, без спаму)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">ПИТАННЯ ТА ВІДПОВІДІ</h2>
+            
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Як отримати доступ до інтенсиву?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Після оплати ви отримаєте доступ до закритого Telegram-каналу з матеріалами у чаті бота. Усі матеріали доступні онлайн — можна проходити з телефону або комп'ютера.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Якщо я повний новачок — мені підійде?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Так. Інтенсив створений для людей без технічного бекграунду. Знання програмування, вищої математики чи статистики не потрібні. Матеріал подається через аналогії, приклади та візуальні пояснення.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Як довго буде доступ до матеріалів?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Доступ до матеріалів інтенсиву надається на 3 місяці після завершення. За цей час можна спокійно пройти всі модулі та повернутися до матеріалів за потреби.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Чи обов'язково виконувати домашні завдання?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Ні, домашні завдання не є обов'язковими. Вони створені для кращого розуміння матеріалу. Фінальне завдання — також за бажанням, але саме після нього видається сертифікат.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Чи буде сертифікат?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Так. Після виконання фінального завдання ви отримуєте сертифікат про проходження інтенсиву.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>З якого віку можна проходити інтенсив?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Інтенсив підходить для учасників від 14 років. Матеріал подається без коду і формул, але з використанням графіків і візуальних схем. Це не дитячий курс, а перше усвідомлене знайомство з машинним навчанням.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guarantee Section -->
+    <section class="guarantee">
+        <div class="container">
+            <div class="guarantee-content">
+                <h2>Спокійне рішення без ризику</h2>
+                <div style="max-width:700px; margin:0 auto; text-align:left;"></div>
+                    <p>Якщо після оплати і до старту першого уроку ви зрозумієте, що інтенсив вам не підходить — я поверну кошти без зайвих питань.</p>
+                    <p>Важливо, щоб ви навчались із внутрішнім спокоєм і впевненістю у своєму виборі.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+        <div class="container">
+            <div class="final-cta-content">
+                <h2><span style="color:var(--text-dark)">ГОТОВІ РОЗІБРАТИСЯ В МАШИННОМУ НАВЧАННІ</span> <span style="color:var(--primary-blue)">БЕЗ КОДУ, ФОРМУЛ І ХАОСУ</span>?</h2>
+                
+                <p class="final-cta-text">Міні-інтенсив про логіку машинного навчання — для тих, хто хоче зрозуміти, як насправді думають алгоритми.</p>
+                
+                <ul class="final-cta-list">
+                    <li>Чітке уявлення, як працює машинне навчання</li>
+                    <li>Розуміння без програмування і складної математики</li>
+                    <li>Матеріали, до яких можна повертатися</li>
+                    <li>Впевненість у темі замість фрагментів знань</li>
+                </ul>
+
+                <p class="final-cta-note">Це не разовий вебінар і не лекція «подивитись і забути». Це інтенсив, після якого у вас залишається система в голові й матеріали під рукою.</p>
+
+                <div class="course-details">
+                    <p><strong>Старт:</strong> 12 березня</p>
+                    <p><strong>Формат:</strong> закритий Telegram-канал</p>
+                    <p><strong>Доступ:</strong> 3 місяці</p>
+                    <p><strong>Ціна:</strong> <span class="price-highlight">900 грн</span> замість 3100 грн</p>
+                </div>
+
+                <div class="final-cta-btn-wrapper">
+                    <button class="cta-btn">ОТРИМАТИ ДОСТУП</button>
+                    <p class="instant-access">(Миттєвий доступ, без спаму)</p>
+                </div>
+
+                <p class="money-back">Якщо до старту ви зрозумієте, що інтенсив вам не підходить — я поверну кошти без зайвих питань.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>ФОП Мелешенко Катерина Сергіївна</p>
+                <p>Телефон: +380672161847</p>
+                <p>Ел. пошта: yekaterynamel@gmail.com</p>
+                <p>Телеграм: @katemeleshenko</p>
+            </div>
+            <div class="footer-links">
+                <a href="privacy-policy.html">Політика конфіденційності</a>
+                <a href="terms-offer.html">Договір оферти</a>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026, Усі права захищені</p>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script>
+            // Countdown Timer to March 1, 2026
+            function updateCountdown() {
+                // March is month 2 (0-indexed), so we use 2 for March
+                const targetDate = new Date(2026, 2, 1, 0, 0, 0).getTime();
+                
+                function update() {
+                    const now = new Date().getTime();
+                    const distance = targetDate - now;
+                    
+                    if (distance < 0) {
+                        document.getElementById('days').textContent = '00';
+                        document.getElementById('hours').textContent = '00';
+                        document.getElementById('minutes').textContent = '00';
+                        document.getElementById('seconds').textContent = '00';
+                        return;
+                    }
+                    
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    
+                    document.getElementById('days').textContent = String(days).padStart(2, '0');
+                    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+                }
+                
+                update();
+                setInterval(update, 1000);
+            }
+    
+            updateCountdown();
+    
+                    // FAQ Toggle
+                    document.querySelectorAll('.faq-question').forEach(question => {
+                        // make element keyboard-focusable
+                        if (!question.hasAttribute('tabindex')) {
+                            question.setAttribute('tabindex', '0');
+                        }
+    
+                        const toggleFaq = () => {
+                            const answer = question.nextElementSibling;
+                            const toggle = question.querySelector('.faq-toggle');
+                            if (!answer) return;
+                            const isActive = answer.classList.contains('active');
+                            
+                            // Close all
+                            document.querySelectorAll('.faq-answer').forEach(a => {
+                                a.classList.remove('active');
+                            });
+                            document.querySelectorAll('.faq-toggle').forEach(t => {
+                                t.textContent = '▼';
+                            });
+                            
+                            // Toggle current
+                            if (!isActive) {
+                                answer.classList.add('active');
+                                if (toggle) toggle.textContent = '▲';
+                            }
+                        };
+    
+                        question.addEventListener('click', toggleFaq);
+                        question.addEventListener('keydown', (e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                toggleFaq();
+                            }
+                        });
+                    });
+            
+                    // CTA Buttons
+                    document.querySelectorAll('.cta-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            // If button contains a data-href attribute, navigate there; otherwise scroll to final CTA section
+                            const href = btn.getAttribute('data-href');
+                            if (href) {
+                                window.location.href = href;
+                                return;
+                            }
+                            const target = document.querySelector('.final-cta');
+                            if (target) {
+                                target.scrollIntoView({ behavior: 'smooth' });
+                            }
+                        });
+                    });
+        </script>
+    </body>
+    </html>
+                     
