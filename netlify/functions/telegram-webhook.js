@@ -1,8 +1,10 @@
 exports.handler = async (event) => {
   try {
     const BOT_TOKEN = process.env.BOT_TOKEN;
-    if (!BOT_TOKEN) {
-      return { statusCode: 500, body: "BOT_TOKEN is not set" };
+    const CHANNEL_ID = process.env.CHANNEL_ID;
+
+    if (!BOT_TOKEN || !CHANNEL_ID) {
+      return { statusCode: 500, body: "Missing BOT_TOKEN or CHANNEL_ID" };
     }
 
     const update = JSON.parse(event.body || "{}");
@@ -15,37 +17,64 @@ exports.handler = async (event) => {
     const chatId = message.chat.id;
     const text = message.text.trim();
 
-    // /start або /start order_id
-    let startPayload = null;
+    // /start або /start PAYLOAD
+    let payload = null;
     if (text.startsWith("/start")) {
       const parts = text.split(" ");
-      if (parts.length > 1) startPayload = parts.slice(1).join(" ").trim();
+      if (parts.length > 1) payload = parts.slice(1).join(" ").trim();
     }
 
-    const reply =
-      "Вітаю 👋\n\n" +
-      "Цей бот допоможе вам отримати доступ до інтенсиву «Машинне навчання без коду».\n\n" +
-      (startPayload
-        ? `Я бачу ваш код замовлення: ${startPayload}\n\n`
-        : "") +
-      "Якщо ви щойно завершили оплату — доступ буде надано автоматично протягом кількох хвилин.\n\n" +
-      "Якщо у вас виникли питання або щось не спрацювало, напишіть на\n" +
-      "📩 yekaterynamel@gmail.com або 📱 @katemeleshenko";
+    // Якщо людина просто натиснула Start без payload — даємо інструкцію
+    if (!payload) {
+      const reply =
+        "Вітаю 👋\n\n" +
+        "Цей бот видає доступ до інтенсиву після оплати.\n\n" +
+        "Якщо ви вже оплатили — поверніться сюди через кнопку/посилання після оплати.\n\n" +
+        "Питання: 📩 yekaterynamel@gmail.com або 📱 katemeleshenko";
 
-    // Відповідь користувачу
-    const tgRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text: reply }),
+      });
+
+      return { statusCode: 200, body: "ok" };
+    }
+
+    // Створюємо одноразове інвайт-посилання (member_limit: 1)
+    const inviteRes = await fetch(
+      `https://api.telegram.org/bot${BOT_TOKEN}/createChatInviteLink`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: CHANNEL_ID,
+          member_limit: 1,
+        }),
+      }
+    );
+
+    const inviteData = await inviteRes.json();
+
+    if (!inviteData.ok) {
+      return { statusCode: 500, body: `Invite error: ${JSON.stringify(inviteData)}` };
+    }
+
+    const inviteLink = inviteData.result.invite_link;
+
+    const successMsg =
+      "✅ Доступ готовий!\n\n" +
+      "Ось одноразове посилання для входу в закритий канал інтенсиву:\n" +
+      inviteLink +
+      "\n\n" +
+      "⚠️ Посилання працює для 1 входу.\n" +
+      `Ваш код: ${payload}`;
+
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: reply
-      })
+      body: JSON.stringify({ chat_id: chatId, text: successMsg }),
     });
-
-    if (!tgRes.ok) {
-      const errText = await tgRes.text();
-      return { statusCode: 500, body: `Telegram error: ${errText}` };
-    }
 
     return { statusCode: 200, body: "ok" };
   } catch (e) {
