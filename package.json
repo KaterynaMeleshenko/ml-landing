@@ -8,8 +8,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "@netlify/blobs": "^10.7.0"
-  }
+  },
+  "description": ""
 }
