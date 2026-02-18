@@ -42,7 +42,7 @@ exports.handler = async () => {
     const orderReference = makeOrderReference();
     const orderDate = Math.floor(Date.now() / 1000);
 
-    const productName = ["Інтенсив «Магія машинного навчання»"];
+    const productName = ["Інтенсив «Машинне навчання без коду»"];
     const productCount = ["1"];
     const productPrice = [amount];
 
@@ -61,7 +61,7 @@ exports.handler = async () => {
 
     const merchantSignature = hmacMd5(secretKey, signatureString);
 
-    const returnUrl = `${siteUrl}/thanks/?orderReference=${encodeURIComponent(orderReference)}`;
+    const returnUrl = `${siteUrl}/.netlify/functions/wfp-success`;
 
     // Автосабміт форма на WayForPay
     const html = `<!doctype html>
