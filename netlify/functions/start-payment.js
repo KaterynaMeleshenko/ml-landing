@@ -61,7 +61,7 @@ exports.handler = async () => {
 
     const merchantSignature = hmacMd5(secretKey, signatureString);
 
-    const returnUrl = `${siteUrl}/.netlify/functions/wfp-success`;
+    const returnUrl = `${siteUrl}/.netlify/functions/wfp-success?orderReference=${encodeURIComponent(orderReference)}`;
 
     // Автосабміт форма на WayForPay
     const html = `<!doctype html>
