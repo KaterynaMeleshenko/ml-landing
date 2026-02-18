@@ -13,28 +13,40 @@ function escapeHtml(s) {
     .replaceAll("'", "&#39;");
 }
 
+function domainFromUrl(url) {
+  // "https://ml-intensive.meleshenko.com" -> "ml-intensive.meleshenko.com"
+  return url.replace(/^https?:\/\//, "").replace(/\/+$/, "");
+}
+
+function makeOrderReference() {
+  const ts = Math.floor(Date.now() / 1000);
+  const rnd =
+    (crypto.randomUUID ? crypto.randomUUID().replaceAll("-", "") : crypto.randomBytes(16).toString("hex"));
+  return `ml-${ts}-${rnd.slice(0, 16)}`; // коротко, але унікально
+}
+
 exports.handler = async () => {
   try {
-    const merchantAccount = process.env.WFP_MERCHANT_ACCOUNT;
-    const secretKey = process.env.WFP_SECRET_KEY;
-    const merchantDomainName = process.env.WFP_DOMAIN || "ml-intensive.meleshenko.com";
+    const merchantAccount = process.env.WFP_MERCHANT_ACCOUNT; // Merchant login
+    const secretKey = process.env.WFP_SECRET_KEY;            // Merchant secret key
     const siteUrl = process.env.SITE_URL || "https://ml-intensive.meleshenko.com";
-    const amount = String(process.env.PRICE_UAH || "900"); // змінюєш тут/в env через 2 тижні
+    const amount = String(process.env.PRICE_UAH || "900");
     const currency = "UAH";
 
     if (!merchantAccount || !secretKey) {
-      return { statusCode: 500, body: "Missing WFP merchant env vars" };
+      return { statusCode: 500, body: "Missing WFP_MERCHANT_ACCOUNT or WFP_SECRET_KEY" };
     }
 
+    const merchantDomainName = process.env.WFP_DOMAIN || domainFromUrl(siteUrl);
+
+    const orderReference = makeOrderReference();
     const orderDate = Math.floor(Date.now() / 1000);
-    const orderReference =
-      "ml-" + crypto.randomUUID().replaceAll("-", "").slice(0, 20);
 
     const productName = ["Інтенсив «Магія машинного навчання»"];
     const productCount = ["1"];
     const productPrice = [amount];
 
-    // Підпис (Purchase)
+    // Підпис для /pay (purchase form)
     const signatureString = [
       merchantAccount,
       merchantDomainName,
@@ -50,9 +62,8 @@ exports.handler = async () => {
     const merchantSignature = hmacMd5(secretKey, signatureString);
 
     const returnUrl = `${siteUrl}/thanks.html?orderReference=${encodeURIComponent(orderReference)}`;
-    const serviceUrl = `${siteUrl}/.netlify/functions/wayforpay-webhook`;
 
-    // Авто-submit форма (користувач одразу бачить WayForPay)
+    // Автосабміт форма на WayForPay
     const html = `<!doctype html>
 <html lang="uk">
 <head>
@@ -62,7 +73,8 @@ exports.handler = async () => {
 </head>
 <body>
   <p>Перенаправляємо на оплату…</p>
-  <form id="pay" method="POST" action="https://secure.wayforpay.com/pay">
+
+  <form id="wfp" method="POST" action="https://secure.wayforpay.com/pay">
     <input type="hidden" name="merchantAccount" value="${escapeHtml(merchantAccount)}" />
     <input type="hidden" name="merchantDomainName" value="${escapeHtml(merchantDomainName)}" />
     <input type="hidden" name="orderReference" value="${escapeHtml(orderReference)}" />
@@ -75,13 +87,13 @@ exports.handler = async () => {
     <input type="hidden" name="productPrice[]" value="${escapeHtml(productPrice[0])}" />
 
     <input type="hidden" name="merchantSignature" value="${escapeHtml(merchantSignature)}" />
-
     <input type="hidden" name="returnUrl" value="${escapeHtml(returnUrl)}" />
-    <input type="hidden" name="serviceUrl" value="${escapeHtml(serviceUrl)}" />
-
     <input type="hidden" name="language" value="UA" />
   </form>
-  <script>document.getElementById('pay').submit();</script>
+
+  <script>
+    document.getElementById('wfp').submit();
+  </script>
 </body>
 </html>`;
 
@@ -91,6 +103,7 @@ exports.handler = async () => {
       body: html,
     };
   } catch (e) {
+    console.error("start-payment error:", e);
     return { statusCode: 500, body: `Error: ${e.message}` };
   }
 };
