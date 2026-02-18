@@ -1,10 +1,17 @@
+const { getStore } = require("@netlify/blobs");
+
+function buildText(...parts) {
+  return parts.filter(Boolean).join("\n");
+}
+
 exports.handler = async (event) => {
   try {
     const BOT_TOKEN = process.env.BOT_TOKEN;
     const CHANNEL_ID = process.env.CHANNEL_ID;
+    const SUPPORT_EMAIL = process.env.SUPPORT_EMAIL || "yekaterynamel@gmail.com";
 
     if (!BOT_TOKEN || !CHANNEL_ID) {
-      return { statusCode: 500, body: "Missing BOT_TOKEN or CHANNEL_ID" };
+      return { statusCode: 500, body: "Missing BOT_TOKEN or CHANNEL_ID env vars" };
     }
 
     const update = JSON.parse(event.body || "{}");
@@ -15,65 +22,179 @@ exports.handler = async (event) => {
     }
 
     const chatId = message.chat.id;
-    const text = message.text.trim();
+    const text = String(message.text).trim();
 
-    // /start або /start PAYLOAD
+    // Команди
+    const isStart = text.startsWith("/start");
+    const isHelp = text === "/help" || text.startsWith("/help");
+
+    // Витягуємо payload з /start <payload>
     let payload = null;
-    if (text.startsWith("/start")) {
+    if (isStart) {
       const parts = text.split(" ");
       if (parts.length > 1) payload = parts.slice(1).join(" ").trim();
     }
 
-    // Якщо людина просто натиснула Start без payload — даємо інструкцію
-    if (!payload) {
-      const reply =
-        "Вітаю 👋\n\n" +
-        "Цей бот видає доступ до інтенсиву після оплати.\n\n" +
-        "Якщо ви вже оплатили — поверніться сюди через кнопку/посилання після оплати.\n\n" +
-        "Питання: 📩 yekaterynamel@gmail.com або 📱 katemeleshenko";
+    // Валідація payload (orderReference)
+    if (payload && payload.length > 128) payload = null; // дуже довге — ігноруємо
+
+    // Простий /help
+    if (isHelp) {
+      const helpText = buildText(
+        "ℹ️ Як отримати доступ:",
+        "",
+        "1) Оплатіть інтенсив на сайті.",
+        "2) Після оплати натисніть кнопку на сторінці «Дякую» — вона відкриє цей бот з вашим кодом.",
+        "3) Я перевірю оплату і надішлю посилання для входу в канал.",
+        "",
+        `Підтримка: ${SUPPORT_EMAIL}`
+      );
 
       await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: chatId, text: reply }),
+        body: JSON.stringify({ chat_id: chatId, text: helpText }),
       });
 
       return { statusCode: 200, body: "ok" };
     }
 
-    // Створюємо одноразове інвайт-посилання (member_limit: 1)
-    const inviteRes = await fetch(
-      `https://api.telegram.org/bot${BOT_TOKEN}/createChatInviteLink`,
-      {
+    // Якщо /start без payload — інструкція
+    if (isStart && !payload) {
+      const infoText = buildText(
+        "Вітаю 👋",
+        "",
+        "Цей бот видає доступ до закритого Telegram-каналу інтенсиву після успішної оплати.",
+        "",
+        "Якщо ви вже оплатили — поверніться на сторінку «Дякую» після оплати і натисніть кнопку «Отримати доступ у Telegram».",
+        "",
+        `Питання: ${SUPPORT_EMAIL}`
+      );
+
+      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: CHANNEL_ID,
-          member_limit: 1,
-        }),
-      }
-    );
+        body: JSON.stringify({ chat_id: chatId, text: infoText }),
+      });
 
-    const inviteData = await inviteRes.json();
-
-    if (!inviteData.ok) {
-      return { statusCode: 500, body: `Invite error: ${JSON.stringify(inviteData)}` };
+      return { statusCode: 200, body: "ok" };
     }
 
-    const inviteLink = inviteData.result.invite_link;
+    // Якщо є payload — це orderReference, перевіряємо оплату
+    if (isStart && payload) {
+      const payments = getStore("payments");
+      const claims = getStore("claims");
 
-    const successMsg =
-      "✅ Доступ готовий!\n\n" +
-      "Ось одноразове посилання для входу в закритий канал інтенсиву:\n" +
-      inviteLink +
-      "\n\n" +
-      "⚠️ Посилання працює для 1 входу.\n" +
-      `Ваш код: ${payload}`;
+      // 1) чи є підтвердження оплати від WayForPay webhook?
+      const paidRecord = await payments.get(payload);
 
+      if (!paidRecord) {
+        const notFoundText = buildText(
+          "Оплату не знайдено або вона ще не підтверджена ⏳",
+          "",
+          "Якщо ви щойно оплатили — зачекайте 1–2 хвилини і натисніть кнопку ще раз.",
+          "",
+          `Якщо не спрацювало — напишіть: ${SUPPORT_EMAIL}`
+        );
+
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: chatId, text: notFoundText }),
+        });
+
+        return { statusCode: 200, body: "not_paid" };
+      }
+
+      // 2) захист від повторної видачі по одному orderReference
+      const alreadyClaimed = await claims.get(payload);
+      if (alreadyClaimed) {
+        const alreadyText = buildText(
+          "✅ Цей доступ уже був виданий раніше.",
+          "",
+          "Якщо ви не змогли зайти в канал — напишіть мені, і я допоможу:",
+          SUPPORT_EMAIL
+        );
+
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: chatId, text: alreadyText }),
+        });
+
+        return { statusCode: 200, body: "already_claimed" };
+      }
+
+      // 3) створюємо одноразове інвайт-посилання
+      const expireDate = Math.floor(Date.now() / 1000) + 60 * 60; // 1 година
+      const inviteRes = await fetch(
+        `https://api.telegram.org/bot${BOT_TOKEN}/createChatInviteLink`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: CHANNEL_ID,
+            member_limit: 1,
+            expire_date: expireDate,
+          }),
+        }
+      );
+
+      const inviteData = await inviteRes.json();
+
+      if (!inviteData.ok) {
+        // Якщо Telegram повернув помилку — повідомимо користувача
+        const errText = buildText(
+          "Сталася технічна помилка при створенні посилання 😕",
+          "",
+          `Напишіть мені, будь ласка: ${SUPPORT_EMAIL}`,
+          "",
+          `Код: ${payload}`
+        );
+
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: chatId, text: errText }),
+        });
+
+        return { statusCode: 500, body: JSON.stringify(inviteData) };
+      }
+
+      const inviteLink = inviteData.result.invite_link;
+
+      // 4) відмічаємо, що видали доступ (перед відправкою теж можна, але так безпечніше для UX)
+      await claims.set(payload, JSON.stringify({ claimed_at: Date.now(), chat_id: chatId }));
+
+      // 5) надсилаємо посилання
+      const successText = buildText(
+        "✅ Оплату підтверджено!",
+        "",
+        "Ось ваше одноразове посилання для входу в закритий канал:",
+        inviteLink,
+        "",
+        "⚠️ Посилання працює для 1 входу і діє 1 годину.",
+        "",
+        `Питання: ${SUPPORT_EMAIL}`
+      );
+
+      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text: successText }),
+      });
+
+      return { statusCode: 200, body: "ok" };
+    }
+
+    // Якщо це не /start і не /help — можна мовчати або підказати
     await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: chatId, text: successMsg }),
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: "Напишіть /start або /help 🙂",
+      }),
     });
 
     return { statusCode: 200, body: "ok" };

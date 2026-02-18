@@ -5,25 +5,82 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Оплату отримано</title>
   <style>
-    body{font-family:Arial,Helvetica,sans-serif;max-width:900px;margin:0 auto;padding:24px;line-height:1.6}
-    .box{border:1px solid #eee;border-radius:12px;padding:18px}
+    body{
+      font-family:Arial,Helvetica,sans-serif;
+      max-width:900px;
+      margin:0 auto;
+      padding:24px;
+      line-height:1.6;
+    }
+    .box{
+      border:1px solid #eee;
+      border-radius:12px;
+      padding:18px;
+      margin-top:20px;
+    }
+    .btn{
+      display:inline-block;
+      background:#000;
+      color:#fff;
+      padding:12px 20px;
+      border-radius:8px;
+      text-decoration:none;
+      margin-top:16px;
+    }
+    .btn:hover{
+      opacity:0.9;
+    }
     a{color:#0066cc}
   </style>
 </head>
 <body>
+
   <h1>Дякую! Оплату отримано ✅</h1>
+
   <div class="box">
-    <p><strong>Що далі:</strong></p>
-    <ol>
-      <li>Перевірте email, який ви вказали під час оплати — там буде підтвердження.</li>
-      <li>Щоб отримати доступ до Telegram-каналу, напишіть мені в Telegram: <strong>@YOUR_USERNAME</strong></li>
-      <li>У повідомленні вкажіть: <strong>імʼя + email/телефон з оплати</strong>.</li>
-    </ol>
+    <p><strong>Ваш платіж обробляється.</strong></p>
+    <p>
+      Щоб отримати доступ до Telegram-каналу, натисніть кнопку нижче.
+    </p>
+
+    <a id="tgLink" class="btn" href="#">
+      Отримати доступ у Telegram
+    </a>
+
     <p style="margin-top:16px;">
-      Якщо виникли питання — пишіть: <a href="mailto:yekaterynamel@gmail.com">yekaterynamel@gmail.com</a>
+      Якщо після натискання доступ не з’явився —
+      зачекайте 1–2 хвилини та спробуйте ще раз.
+    </p>
+
+    <p style="margin-top:16px;">
+      Якщо виникли питання — пишіть:
+      <a href="mailto:yekaterynamel@gmail.com">
+        yekaterynamel@gmail.com
+      </a>
     </p>
   </div>
 
-  <p style="margin-top:20px;"><a href="/">Повернутися на головну</a></p>
+  <p style="margin-top:20px;">
+    <a href="/">Повернутися на головну</a>
+  </p>
+
+  <!-- 🔐 ЛОГІКА ПЕРЕДАЧІ orderReference В БОТА -->
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const orderRef = params.get("orderReference");
+
+    const BOT_USERNAME = "ml_intensive_access_bot";
+
+    const tgLink = document.getElementById("tgLink");
+
+    if (orderRef) {
+      tgLink.href = `https://t.me/${BOT_USERNAME}?start=${encodeURIComponent(orderRef)}`;
+    } else {
+      // якщо хтось просто зайшов напряму
+      tgLink.innerText = "Перейти в Telegram";
+      tgLink.href = `https://t.me/${BOT_USERNAME}`;
+    }
+  </script>
+
 </body>
 </html>
