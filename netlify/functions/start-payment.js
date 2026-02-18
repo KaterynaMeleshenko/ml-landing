@@ -61,7 +61,7 @@ exports.handler = async () => {
 
     const merchantSignature = hmacMd5(secretKey, signatureString);
 
-    const returnUrl = `${siteUrl}/thanks.html?orderReference=${encodeURIComponent(orderReference)}`;
+    const returnUrl = `${siteUrl}/thanks/?orderReference=${encodeURIComponent(orderReference)}`;
 
     // Автосабміт форма на WayForPay
     const html = `<!doctype html>
