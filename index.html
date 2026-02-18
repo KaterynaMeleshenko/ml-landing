@@ -1247,7 +1247,12 @@
 
             <div class="cta-section">
                 <p class="cta-question" style="font-family: 'Oswald', sans-serif; font-weight: 400;">ВПІЗНАЛИ СЕБЕ?</p>
-                <button class="cta-btn" style="max-width: 400px; margin: 0 auto;">ОТРИМАТИ ДОСТУП</button>
+                    <a class="cta-btn"
+                            href="https://ml-intensive.meleshenko.com/.netlify/functions/start-payment"
+                            target="_blank"
+                            rel="noopener"
+                            style="max-width:400px; margin:0 auto; display:block; text-align:center;"
+                        >ОТРИМАТИ ДОСТУП</a>
                 <p class="instant-access">(Миттєвий доступ, без спаму)</p>
             </div>
         </div>
@@ -1317,7 +1322,12 @@
 
             <div class="cta-section">
                 <p class="cta-question" style="font-family: 'Oswald', sans-serif; font-weight: 400;">ГОТОВІ РОЗІБРАТИСЬ У МАШИННОМУ НАВЧАННІ БЕЗ ЗАЙВОГО СТРЕСУ?</p>
-                <button class="cta-btn" style="max-width: 400px; margin: 0 auto;">ОТРИМАТИ ДОСТУП</button>
+                    <a class="cta-btn"
+                            href="https://ml-intensive.meleshenko.com/.netlify/functions/start-payment"
+                            target="_blank"
+                            rel="noopener"
+                            style="max-width:400px; margin:0 auto; display:block; text-align:center;"
+                        >ОТРИМАТИ ДОСТУП</a>
                 <p class="instant-access">(Миттєвий доступ, без спаму)</p>
             </div>
         </div>
@@ -1445,7 +1455,12 @@
 
             <div class="cta-section">
                 <p class="cta-question" style="font-family: 'Oswald', sans-serif; font-weight: 400;">ГОТОВІ ПРОЙТИ ІНТЕНСИВ У ЗРУЧНОМУ ФОРМАТІ БЕЗ ЗАЙВОГО ШУМУ?</p>
-                <button class="cta-btn" style="max-width: 400px; margin: 0 auto;">ОТРИМАТИ ДОСТУП</button>
+                    <a class="cta-btn"
+                            href="https://ml-intensive.meleshenko.com/.netlify/functions/start-payment"
+                            target="_blank"
+                            rel="noopener"
+                            style="max-width:400px; margin:0 auto; display:block; text-align:center;"
+                        >ОТРИМАТИ ДОСТУП</a>
                 <p class="instant-access">(Миттєвий доступ, без спаму)</p>
             </div>
         </div>
@@ -1537,7 +1552,12 @@
 
             <div class="cta-section">
                 <p class="cta-question" style="color: var(--white); font-family: 'Oswald', sans-serif; font-weight: 400;">ХОЧЕТЕ РОЗІБРАТИСЯ В МАШИННОМУ НАВЧАННІ ТАК САМО ЗРОЗУМІЛО?</p>
-                <button class="cta-btn" style="max-width: 400px; margin: 0 auto;">ОТРИМАТИ ДОСТУП</button>
+                    <a class="cta-btn"
+                            href="https://ml-intensive.meleshenko.com/.netlify/functions/start-payment"
+                            target="_blank"
+                            rel="noopener"
+                            style="max-width:400px; margin:0 auto; display:block; text-align:center;"
+                        >ОТРИМАТИ ДОСТУП</a>
                 <p class="instant-access" style="color: #ffffff;">(Миттєвий доступ, без спаму)</p>
             </div>
         </div>
@@ -1650,7 +1670,12 @@
                 </div>
 
                 <div class="final-cta-btn-wrapper">
-                    <button class="cta-btn">ОТРИМАТИ ДОСТУП</button>
+                         <a class="cta-btn"
+                            href="https://ml-intensive.meleshenko.com/.netlify/functions/start-payment"
+                            target="_blank"
+                            rel="noopener"
+                            style="margin:0 auto; display:block; text-align:center;"
+                        >ОТРИМАТИ ДОСТУП</a>
                     <p class="instant-access">(Миттєвий доступ, без спаму)</p>
                 </div>
 
@@ -1751,21 +1776,7 @@
                         });
                     });
             
-                    // CTA Buttons
-                    document.querySelectorAll('.cta-btn').forEach(btn => {
-                        btn.addEventListener('click', () => {
-                            // If button contains a data-href attribute, navigate there; otherwise scroll to final CTA section
-                            const href = btn.getAttribute('data-href');
-                            if (href) {
-                                window.location.href = href;
-                                return;
-                            }
-                            const target = document.querySelector('.final-cta');
-                            if (target) {
-                                target.scrollIntoView({ behavior: 'smooth' });
-                            }
-                        });
-                    });
+                ;
         </script>
     </body>
     </html>
