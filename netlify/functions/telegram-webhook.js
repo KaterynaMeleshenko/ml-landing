@@ -23,6 +23,7 @@ exports.handler = async (event) => {
     const PRICE_UAH = String(process.env.PRICE_UAH || "900");
     const CURRENCY = "UAH";
     const SUPPORT_EMAIL = process.env.SUPPORT_EMAIL || "yekaterynamel@gmail.com";
+    const SUPPORT_TG = process.env.SUPPORT_TG || "@katemeleshenko";
 
     if (!BOT_TOKEN || !CHANNEL_ID) {
       return { statusCode: 200, body: "Missing BOT_TOKEN/CHANNEL_ID" };
@@ -53,8 +54,8 @@ exports.handler = async (event) => {
         BOT_TOKEN,
         chatId,
         "Вітаю 👋\n\n" +
-          "Щоб отримати доступ, відкрийте сторінку після оплати (thanks) і натисніть кнопку «Отримати доступ у Telegram».\n\n" +
-          `Якщо щось не спрацювало — ${SUPPORT_EMAIL}`
+          "Щоб отримати доступ, відкрийте сторінку після успішної оплати і натисніть кнопку «Перейти в Telegram».\n\n" +
+          `Якщо щось не спрацювало — ${SUPPORT_EMAIL} або ${SUPPORT_TG}`
       );
       return { statusCode: 200, body: "ok" };
     }
@@ -102,7 +103,7 @@ exports.handler = async (event) => {
         BOT_TOKEN,
         chatId,
         "Не вдалося підтвердити оплату (помилка підпису).\n" +
-          `Напишіть, будь ласка, у підтримку: ${SUPPORT_EMAIL}`
+          `Напишіть, будь ласка, у підтримку: ${SUPPORT_EMAIL} або ${SUPPORT_TG}`
       );
       return { statusCode: 200, body: "bad_signature" };
     }
@@ -118,7 +119,7 @@ exports.handler = async (event) => {
         chatId,
         "Оплату не знайдено або вона ще не підтверджена ⏳\n\n" +
           "Якщо ви щойно оплатили — зачекайте 1–2 хвилини і натисніть кнопку ще раз.\n\n" +
-          `Підтримка: ${SUPPORT_EMAIL}`
+          `Підтримка: ${SUPPORT_EMAIL} або ${SUPPORT_TG}`
       );
       return { statusCode: 200, body: "not_paid" };
     }
@@ -146,7 +147,7 @@ exports.handler = async (event) => {
         BOT_TOKEN,
         chatId,
         "Оплату підтверджено ✅ але не вдалося створити інвайт.\n" +
-          `Напишіть, будь ласка: ${SUPPORT_EMAIL}`
+          `Напишіть, будь ласка: ${SUPPORT_EMAIL} або ${SUPPORT_TG}`
       );
       return { statusCode: 200, body: "invite_error" };
     }
