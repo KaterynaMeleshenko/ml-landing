@@ -1098,12 +1098,6 @@
     'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '1845163696157003');
     fbq('track', 'PageView');
-    document.getElementById('buyBtn').addEventListener('click', function() {
-        fbq('track', 'Purchase', {
-            value: 900,
-            currency: 'UAH'
-        });
-    });
     </script>
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=1845163696157003&ev=PageView&noscript=1"
@@ -1175,6 +1169,7 @@
                     <p class="price-info">Отримайте доступ<br>до міні-інтенсиву з логіки ML</p>
                         <a class="cta-btn"
                             id="buyBtn"
+                            onclick="fbq('track', 'InitiateCheckout');"
                             href="https://ml-intensive.meleshenko.com/.netlify/functions/start-payment"
                             target="_blank"
                             rel="noopener"
@@ -1273,6 +1268,7 @@
                 <p class="cta-question" style="font-family: 'Oswald', sans-serif; font-weight: 400;">ВПІЗНАЛИ СЕБЕ?</p>
                     <a class="cta-btn"
                         id="buyBtn"
+                        onclick="fbq('track', 'InitiateCheckout');"
                         href="https://ml-intensive.meleshenko.com/.netlify/functions/start-payment"
                         target="_blank"
                         rel="noopener"
@@ -1349,6 +1345,7 @@
                 <p class="cta-question" style="font-family: 'Oswald', sans-serif; font-weight: 400;">ГОТОВІ РОЗІБРАТИСЬ У МАШИННОМУ НАВЧАННІ БЕЗ ЗАЙВОГО СТРЕСУ?</p>
                     <a class="cta-btn"
                         id="buyBtn"
+                        onclick="fbq('track', 'InitiateCheckout');"
                         href="https://ml-intensive.meleshenko.com/.netlify/functions/start-payment"
                         target="_blank"
                         rel="noopener"
@@ -1483,6 +1480,7 @@
                 <p class="cta-question" style="font-family: 'Oswald', sans-serif; font-weight: 400;">ГОТОВІ ПРОЙТИ ІНТЕНСИВ У ЗРУЧНОМУ ФОРМАТІ БЕЗ ЗАЙВОГО ШУМУ?</p>
                     <a class="cta-btn"
                         id="buyBtn"
+                        onclick="fbq('track', 'InitiateCheckout');"
                         href="https://ml-intensive.meleshenko.com/.netlify/functions/start-payment"
                         target="_blank"
                         rel="noopener"
@@ -1581,6 +1579,7 @@
                 <p class="cta-question" style="color: var(--white); font-family: 'Oswald', sans-serif; font-weight: 400;">ХОЧЕТЕ РОЗІБРАТИСЯ В МАШИННОМУ НАВЧАННІ ТАК САМО ЗРОЗУМІЛО?</p>
                     <a class="cta-btn"
                         id="buyBtn"
+                        onclick="fbq('track', 'InitiateCheckout');"
                         href="https://ml-intensive.meleshenko.com/.netlify/functions/start-payment"
                         target="_blank"
                         rel="noopener"
@@ -1700,6 +1699,7 @@
                 <div class="final-cta-btn-wrapper">
                          <a class="cta-btn"
                             id="buyBtn"
+                            onclick="fbq('track', 'InitiateCheckout');"
                             href="https://ml-intensive.meleshenko.com/.netlify/functions/start-payment"
                             target="_blank"
                             rel="noopener"
