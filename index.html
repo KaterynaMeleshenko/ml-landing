@@ -613,7 +613,13 @@
 
         .learn-section {
             max-width: 900px;
-            margin: 40px auto;
+            margin: 20px auto;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            flex: 1; /* Allow it to grow and shrink */
+            margin: 10px; /* Add some margin for spacing */
         }
 
         .learn-section h3 {
@@ -639,9 +645,11 @@
             content: '•';
             position: absolute;
             left: 0;
+            top: 12px;
             color: var(--primary-blue);
             font-weight: 900;
             font-size: 1.5rem;
+            line-height: 1;
         }
 
         .important-note {
@@ -1503,21 +1511,77 @@
                 <p>Ми крок за кроком розбираємо логіку машинного навчання — так, щоб у вас склалася цілісна картина, а не набір фрагментів.</p>
             </div>
 
-            <div class="learn-section">
-                <h3>Під час інтенсиву ми розберемо:</h3>
-                <ul class="learn-list">
-                    <li>що насправді мають на увазі, коли говорять «машинне навчання», і чим воно відрізняється від загального поняття ШІ</li>
-                    <li>як алгоритм «вчиться» на даних і що для нього означає навчання</li>
-                    <li>які типи задач реально вирішує машинне навчання</li>
-                    <li>як ML приймає рішення і на що він спирається</li>
-                </ul>
-            </div>
+            <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 40px; color: var(--primary-blue); text-align: center;">Програма інтенсиву</h2>
 
-            <div class="learn-section">
-                <h3>Бонусно:</h3>
-                <ul class="learn-list">
-                    <li>як працюють нейронні мережі на рівні ідеї і чим вони відрізняються від класичного машинного навчання</li>
-                </ul>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 40px;">
+                <div class="learn-section" style="background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                    <h3 style="font-size: 1.1rem"><span style="color: var(--primary-blue);">Модуль 1.</span> Що таке ШІ і яку роль у ньому відіграє машинне навчання</h3>
+                    
+                    <ul class="learn-list">
+                        <li>3 історичні підходи ШІ: експертні системи, боти на правилах, машинне навчання</li>
+                        <li>Чи ШІ справді розумний?</li>
+                        <li>Домашнє завдання до Mодуля 1 + розбір</li>
+                    </ul>
+                </div>
+
+                <div class="learn-section" style="background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                    <h3 style="font-size: 1.1rem"><span style="color: var(--primary-blue);">Модуль 2.</span> Види навчання та задачі</h3>
+                    
+                    <ul class="learn-list">
+                        <li>Види навчання: з вчителем, без вчителя</li>
+                        <li>Типи задач: класифікація, регресія, кластеризація</li>
+                        <li>Домашнє завдання до Mодуля 2 + розбір</li>
+                    </ul>
+                </div>
+
+                <div class="learn-section" style="background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                    <h3 style="font-size: 1.1rem"><span style="color: var(--primary-blue);">Модуль 3.</span> Моделі регресії</h3>
+                    
+                    <ul class="learn-list">
+                        <li>Лінійна регресія: як алгоритм приймає рішення, в яких задачах працює, обмеження</li>
+                        <li>Домашнє завдання до Mодуля 3 + розбір</li>
+                    </ul>
+                </div>
+
+                <div class="learn-section" style="background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                    <h3 style="font-size: 1.1rem"><span style="color: var(--primary-blue);">Модуль 4.</span> Моделі класифікації</h3>
+                    
+                    <ul class="learn-list">
+                        <li>Логістична регресія</li>
+                        <li>Дерево рішень</li>
+                        <li>Метод K найближчих сусідів</li>
+                        <li>Домашнє завдання до Mодуля 4 + розбір</li>
+                    </ul>
+                </div>
+
+                 <div class="learn-section" style="background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                    <h3 style="font-size: 1.1rem"><span style="color: var(--primary-blue);">Модуль 5.</span> Моделі кластеризації</h3>
+                    
+                    <ul class="learn-list">
+                        <li>K-середніх: як працює алгоритм, приклади використання </li>
+                        <li>Домашнє завдання до Mодуля 5 + розбір</li>
+                    </ul>
+                </div>
+
+                 <div class="learn-section" style="background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                    <h3 style="font-size: 1.1rem"><span style="color: var(--primary-blue);">Модуль “Бонус”. </span> Нейронні мережі </h3>
+                    
+                    <ul class="learn-list">
+                        <li>Що таке нейронна мережа </li>
+                        <li>Відмінності нейронної мережі від класичних моделей машинного навчання </li>
+                        <li>Як влаштована нейронна мережа і як вона приймає рішення </li>
+                        <li>Домашнє завдання до Mодуля “Бонус” + розбір </li>
+                    </ul>
+                </div>
+
+                <div class="learn-section" style="background: var(--white); padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                    <h3 style="font-size: 1.1rem"><span style="color: var(--primary-blue);">Підведення підсумків  </span>  </h3>
+                    
+                    <ul class="learn-list">
+                        <li>Фінальне завдання + розбір</li>
+                        <li><span style="color: var(--primary-blue);">СЕРТИФІКАТ </span> учасника інтенсиву (тільки після виконання фінального завдання)</li>
+                    </ul>
+                </div>
             </div>
 
             <p class="final-note">Це не перелік тем для зазубрювання. Це шлях до розуміння логіки машинного навчання.</p>
@@ -1575,7 +1639,7 @@
                 </div>
             </div>
 
-            <p class="testimonials-note">Відгуки з коментарів під моїми експертними дописами у LinkedIn</p>
+            <p class="testimonials-note">Відгуки з коментарів під моїми експертними дописами у <a href="https://www.linkedin.com/in/katerynameleshenko/" target="_blank" rel="noopener" style="color: var(--gold); text-decoration: none;">LinkedIn</a></p>
 
             <div class="cta-section">
                 <p class="cta-question" style="color: var(--white); font-family: 'Oswald', sans-serif; font-weight: 400;">ХОЧЕТЕ РОЗІБРАТИСЯ В МАШИННОМУ НАВЧАННІ ТАК САМО ЗРОЗУМІЛО?</p>
